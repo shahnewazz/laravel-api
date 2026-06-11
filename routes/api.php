@@ -8,5 +8,8 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::apiResource('posts', PostController::class)->only(['index', 'show']);
 
-Route::resource('posts', PostController::class);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('posts', PostController::class)->except(['index', 'show']);
+});
